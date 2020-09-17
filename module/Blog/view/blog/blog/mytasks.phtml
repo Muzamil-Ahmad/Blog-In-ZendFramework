@@ -1,0 +1,68 @@
+ <div class="row">
+    <div class="col-md-6">
+      <h1 style="text-align: center;">Tasks</h1>
+  
+      <div class="row">
+		  <h6>The Tasks that you have to do.</h6>  	    
+     </div>
+      <?php echo $this->form()->openTag($form) ?>
+		 <table class="table">
+		 <tr>
+		 <th>Task Name</th>
+		 <th>due date</th>
+		 <th>Completed</th>
+		 </tr>
+		 
+		 <?php foreach($mytasks as $task): ?>
+		 <tr>
+		 <td>
+		
+		 <?php echo $task->getTaskname(); ?>
+		 
+		 </td>
+		
+		 
+		 <td><?php echo $task->getDuedate()->format('d-m-y : h-m-s'); ?></td>
+		  <td>
+		 
+		 <?php echo $this->formRow($form->get('taskstatus')); ?>
+		 </td>
+		 </tr>
+		 <?php endforeach; ?>
+		 
+		 
+		 </table>
+     <?php echo $this->form()->openTag($form) ?> 
+    </div>
+   <div class="col-md-6">
+      <h1 style="text-align: center;">Completed Tasks</h1>
+      <div class="col-md-4">
+      <h6>The Tasks that you have completed.</h6>
+	 </div>
+      <table class="table">
+		 <tr>
+		 <th>Task Name</th>
+		 <th>Task Completed</th>
+		 <th>Undo Task</th>
+		 </tr>
+		 <?php foreach($mytasks as $task): ?>
+		 <tr>
+		 <td>
+		
+		 
+		 
+		 </td>
+		 <td>
+		
+		 </td>
+		 <td>
+		
+		 </td>
+		 
+		 </tr>
+		 <?php endforeach; ?>
+		 
+		 </table>
+      
+   </div>
+</div>

@@ -1,0 +1,66 @@
+
+<blockquote class="blockquote text-right">
+  
+</blockquote>
+<div class="row">
+    <div class="col-sm-3">
+     
+    </div>
+    <div class="col-sm-6 jumbotron text-center">
+     <?php
+//       $form = $this->form;
+//       $form->setAttribute('encrypt',"multipart/form-data");
+//       $form->prepare();
+      ?>
+    <h3 style="float:center">Profile</h3>
+   
+    <form method="post" name="blog" enctype="multipart/form-data">
+  
+     <?php 
+          
+          echo $this->formRow($form->get('username')->setAttribute("value",$results->getUsername())); ?>
+         
+          <?php
+          echo $this->formRow($form->get('password')->setAttribute("value",$results->getPassword()));
+          echo $this->formRow($form->get('email')->setAttribute("value",$results->getEmail()));
+          echo $this->formRow($form->get('phoneno')->setAttribute("value",$results->getPhoneno()));
+          echo $this->formRow($form->get('address')->setAttribute("value",$results->getAddress()));
+          echo $this->formRow($form->get('profession')->setAttribute("value",$results->getProfession()));?>
+<!--           after name gender -->
+             <div class="form-group">
+		        <label for="sel1" class="pull-left">Select Gender:</label>
+		       <select name="gender" class="form-control" id="sel1">
+			    <option value="Male">Male</option>
+			    <option value="Female">Female</option>
+			    <option value="other">Other</option>
+		       </select>
+            </div>
+            
+         <div class="input-group">
+         <span class="input-group-addon">
+	      <label class="control-label pull-left">Upload profile picture:</label>
+	      </span>
+	      <span class="input-group-addon">
+	      <input type="file" name="profile" class="filestyle" data-buttonText="Select a File">
+		   </span>
+		   </div>   
+          <?php
+         
+	           echo $this->forminput($form->get('submit'));
+	       ?>  
+	       </div> 
+          <?php
+//            echo $this->form()->closeTag($form);
+           ?> 
+           </form>  
+    </div>
+    <div class="col-sm-3">
+      <h3></h3> 
+   
+    </div>
+  </div>
+
+
+
+
+

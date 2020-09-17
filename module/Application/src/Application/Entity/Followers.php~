@@ -1,0 +1,53 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Followers
+ *
+ * @ORM\Table(name="followers", indexes={@ORM\Index(name="userid", columns={"userid"}), @ORM\Index(name="followsid", columns={"followsid"})})
+ * @ORM\Entity
+ */
+class Followers
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedat", type="datetime", nullable=false)
+     */
+    private $updatedat;
+
+    /**
+     * @var \Application\Entity\Userregistration
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Userregistration")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="userid", referencedColumnName="userid")
+     * })
+     */
+    private $userid;
+
+    /**
+     * @var \Application\Entity\Userregistration
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Userregistration")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="followsid", referencedColumnName="userid")
+     * })
+     */
+    private $followsid;
+
+
+}
+

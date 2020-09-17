@@ -1,0 +1,39 @@
+
+<div class="container">
+<?php
+$title = "Login";
+
+?>
+
+<h1 class="form-heading"><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+ $form = $this->form;
+ $form->setAttribute('action',$this->url('registration', array('action' => 'login')));
+ $form->get('submit')->setAttribute('value', 'Login');
+ $form->prepare();
+//  echo $this->formHidden($form->get('id'));
+ ?>
+ <?php echo $this->form()->openTag($form);?>
+<div class="login-form">
+<div class="main-div">
+    <div class="panel">
+   
+   <p>Please enter Username</p>
+   </div>
+    <form id="Login">
+
+        <div class="form-group">
+            <?php echo $this->formRow($form->get('username')); ?> 
+
+        </div>
+
+       
+        <div class="forgot">
+<!--         <a href="reset.html">Forgot password?</a> -->
+</div>
+<!--         <button type="submit" class="btn btn-primary">Login</button> -->
+<?php echo $this->formInput($form->get('submit')); ?>
+    </form>
+    </div>
+<p class="botto-text"> Designed by </p>
+</div></div></div>

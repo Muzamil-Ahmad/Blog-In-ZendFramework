@@ -1,0 +1,166 @@
+
+ <div class="row">
+ <div class="col-md-3">
+ <div class="card">
+  <img src="img_avatar.png" alt="Avatar" style="width:100%">
+  <div class="container">
+    <h4><b>John Doe</b></h4> 
+    <p>Architect & Engineer</p> 
+  </div>
+</div>
+
+ </div>
+ <?php if(isset($_SESSION['username'])):?>
+   <div class="col-md-6 ScrollStyle">
+   <?php else: ?>
+   <div class="col-md-12 ScrollStyle">
+   <?php endif;?>
+      <?php foreach($records as $data):?>
+      <div class="card" style="width: 100%; margin-bottom:30px;">
+         <?php if($data->getUserphoto()) : ?>
+         <a class="nav-link active" id="pills-home-tab"  
+            href="<?php echo $this->url('blog',array('action'=>'readmore','id'=>$data->getBlogid())) ?>" role="tab" aria-controls="pills-home" aria-selected="true"><img src="<?php echo  $this->basePath("img/".$data->getUserphoto()); ?>" style="width:100%; heigth: 40%" alt="Card image cap" ></a>
+         <?php endif; ?>
+         <div class="card-body">
+            <h2 class="card-title"><a class="nav-link active" id="pills-home-tab"  href="<?php echo $this->url('blog',array('action'=>'readmore','id'=>$data->getBlogid())) ?>" role="tab" aria-controls="pills-home" aria-selected="true">
+               <?php echo $data->getTitle();?>
+               </a>
+            </h2>
+            <p>
+               <span > 
+               <i  class="glyphicon glyphicon-user" style="color:Green; font-size:12px"></i><a href="<?php echo $this->url('blog',array('action'=>'userprofile','id'=>$data->getUserid()->getUserid())) ?>" style="padding-left: 4px; text-decoration:none!important; color:Green;"><?php echo $data->getUserid()->getUsername();  ?></a>   
+               </span>
+               <span>
+               <?php $date=$data->getPostdate();
+                  echo $this->dateFormat($date, IntlDateFormatter::LONG);
+                  ?>    
+               </span>
+            </p>
+            <p class="card-text"><?php echo substr($data->getuserPost(), 0,400);?></p>
+            <a class="nav-link active" id="pills-home-tab"  
+               href="<?php 
+                  echo $this->url('blog',array('action'=>'readmore','id'=>$data->getBlogid())) ?>" 
+               role="tab" aria-controls="pills-home" aria-selected="true">
+            <?php echo $this->translate('Read more') ?></a>
+         </div>
+      </div>
+      <?php endforeach;?>
+   </div>
+   <?php if(isset($_SESSION['username'])):?>
+   <div class="col-md-3">
+   <div class="panel panel-info">
+    <div class="panel-heading" style="text-align: center">Notifications</div>
+   </div>
+  <div class="ScrollStyle">
+      <ul class="list-group">
+         <?php foreach ($activities as $value) :?>
+         <?php if($value['type']=='post'):?>
+         <li class="list-group-item">
+            <p>  
+               <?php  $profile=$value['profile'] ?>          
+               <span>
+               <a href="<?php echo $this->url('blog',array('action'=>'userprofile','id'=>$value['userid']['userid'])) ?>"
+                  data-toggle="tooltip" data-placement="top" title="<?php echo $value['userid']['username'];?>">
+               <img src="<?php echo "img/".$profile; ?>" class="img-circle" alt="Cinque Terre" width="40" height="40"> 
+               </a> </span><span>created a </span><a href="<?php echo $this->url('blog',array('action'=>'readmore','id'=>$value['blogid']))?>">
+               <span>post </span></a><span class="date-font"><?php $date=$value['createDate']; 
+                  echo $this->dateFormat($date, IntlDateFormatter::MEDIUM);?></span>
+            <p>
+         </li>
+         <?php endif;?>
+         <?php if($value['type']=='comment'):?>
+         <li class="list-group-item">
+            <p>  
+               <?php $photo = $value['profile'];  ?>          
+               <span>
+               <a href="<?php echo $this->url('blog',array('action'=>'userprofile','id'=>$value['userid'])) ?>"
+                  data-toggle="tooltip" data-placement="top" title="<?php echo $value['username'];?>">
+               <img src="<?php echo "img/".$photo; ?>" class="img-circle" alt="profile" width="40" height="40"> 
+               </a> </span><span>commented on </span><a href="<?php echo $this->url('blog',array('action'=>'readmore','id'=>$value['blogid']))?>">
+               <span>post </span></a><span class="date-font"><?php $date=$value['createDate']; 
+                  echo $this->dateFormat($date, IntlDateFormatter::MEDIUM);?></span>
+            <p>
+         </li>
+         <?php endif;?>
+         <?php if($value['type']=='like'):?>
+         <li class="list-group-item">
+            <p>  
+               <?php $photo = $value['profile'];  ?>          
+               <span>
+               <a href="<?php echo $this->url('blog',array('action'=>'userprofile','id'=>$value['userid'])) ?>"
+                  data-toggle="tooltip" data-placement="top" title="<?php echo $value['username'];?>">
+               <img src="<?php echo "img/".$photo; ?>" class="img-circle" alt="profile" width="40" height="40"> 
+               </a> </span><span>liked a </span><a href="<?php echo $this->url('blog',array('action'=>'readmore','id'=>$value['blogid']))?>">
+               <span>post </span></a><span class="date-font"><?php $date=$value['createDate']; 
+                  echo $this->dateFormat($date, IntlDateFormatter::MEDIUM);?></span>
+            <p>
+         </li>
+         <?php endif;?>
+         <?php if($value['type']=='follower'):?>
+         <li class="list-group-item">
+            <p>  
+               <?php $photo = $value['profile'];  ?>          
+               <span>
+               <a href="<?php echo $this->url('blog',array('action'=>'userprofile','id'=>$value['userid'])) ?>"
+                  data-toggle="tooltip" data-placement="top" title="<?php echo $value['username'];?>">
+               <img src="<?php echo "img/".$photo; ?>" class="img-circle" alt="profile" width="40" height="40"> 
+               </a> </span><span>follows  </span><a href="<?php echo $this->url('blog',array('action'=>'userprofile','id'=>$value['userid']))?>">you
+               </a><span class="date-font"><?php $date=$value['createDate']; 
+                  echo $this->dateFormat($date, IntlDateFormatter::MEDIUM);?></span>
+            <p>
+         </li>
+         <?php endif;?>
+         <?php endforeach; ?>
+      </ul>
+      </div>
+   </div>
+   <?php endif;?>
+</div>
+
+
+   
+  <script>
+	$(".ctrl-link").click( function(){
+		$.ajax(
+				{
+					url: '/blog/userprofile',
+			        type: 'POST',
+	                dataType: 'JSON',
+	                success: function()
+	                {
+	
+	                }
+				});
+	});
+	$(document).ready(function(){
+	    $('[data-toggle="tooltip"]').tooltip();   
+	});	
+
+  </script>
+  <style>
+  .ScrollStyle
+{
+    max-height: 570px;
+    overflow-y: scroll;
+    
+}
+/* ::-webkit-scrollbar { */
+/*     width: 0px; */
+/*     background: transparent; */
+.date-font{
+font-size:12px;
+}
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+.rounded{border-radius:2px;}
+
+
+/* design for userprofile card */
+
+
+</style>
+ 
+ 
+ 

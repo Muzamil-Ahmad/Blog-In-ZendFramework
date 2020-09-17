@@ -1,0 +1,208 @@
+<!-- used to retrieve userid and username  -->
+
+<?php
+   $title = 'Post';
+   $this->headTitle($title);
+	 if (isset($_SESSION['userid']))
+	 {
+	         $useridsession=$_SESSION['userid'];
+	 }
+   $userid = $iddata->getUserid()->getuserid();
+   $username = $iddata->getUserid()->getusername();
+//    $postid=$iddata->getBlogid();
+?>
+<!-- end -->
+
+
+
+ <div class="row no-gutters">
+      <?php 
+      if($iddata->getUserphoto()) : 
+      ?>
+		   <div class="col-6 col-md-3">
+		     <img class="card-img-top" src="<?php 
+		     echo  $this->basePath("img/".$iddata->getUserphoto());
+		     ?>" style="margin-top:25px!important" height="300" width="300" >
+		   </div>
+	  <?php
+	    endif; 
+	  ?>
+       <div class="col-12 col-sm-6 col-md-9">
+          <h1 class="card-title" style="color: blue">
+          <?php echo $iddata->getTitle();?> 
+<!--        code for set edit if the user is loged in    -->
+         <?php 
+        if(isset($_SESSION['userid'])) : 
+     ?>
+      <?php
+        echo $useridsession ==$userid ? "<a href=".$this->url('blog',
+          array('action'=>'edit','id'=>$iddata->getBlogid())).
+        "><span class='glyphicon glyphicon-edit'></span></a>":"";
+      ?>
+		<?php endif; ?>
+<!--    end of the code to check the user is logged in or not        -->
+		
+          </h1><hr>
+  <h6 class="card-title style="color:grey">
+           <?php echo $username;$date=$iddata->getPostdate();?>
+           posted on 
+   <span class="pl-5">
+   <?php 
+      echo "".$this->dateFormat($date, IntlDateFormatter::MEDIUM,IntlDateFormatter::NONE, "en_US");
+   ?>
+   </span>
+  </h6>
+   <p class="card-text">
+     <?php echo $iddata->getuserPost();?>
+  </p>
+<!--   code for like portion starts    -->
+     <?php 
+        if(isset($_SESSION['userid'])) : 
+     ?>
+      <?php
+  if(isset($_SESSION['userid']))
+  {
+   if ($likestatus)
+   {
+   $like="Unlike";
+   }
+   else
+   {
+   	$like="Like";
+   }
+  }
+  ?>
+     <a class="btn btn-info btn-lg padding-like" href="javascript:void(0)">
+      <input value="<?php echo $iddata->getBlogid()?>" type="hidden" id="blogid-like">
+       <span class="likeDiv"><?php echo $like ?></span>
+     <span class="badge badge-light"><?php
+      echo $count[0]['c'];
+      ?></span></a>
+     	<?php endif; ?>
+<!--     code for like portion ends -->
+         <hr>
+         
+<!--          comment button section starts -->
+         <div class="comment-call">
+         <?php if(isset($_SESSION['userid'])) : ?>
+         
+         </div>
+  
+       <div class="col-md-8 col-xs-12">
+       <?php echo $this->formRow($form->get('comment')); ?>
+         <input type="hidden" class="session" value="<?php echo $_SESSION['username']?>">
+       </div>
+       <input value="<?php echo $iddata->getBlogid() ?>" type="hidden" id="blogid">
+       <input type="hidden" name="commentid" id="commentid">
+       <div class="col-md-4 submit-div" >
+            <button type="button" class="btn btn-primary btn-cancel" style="display: none">Cancel</button>
+                <?php 
+                    echo $this->formInput($form->get('submit')); 
+                 ?>  
+        </div> 
+     <?php echo $this->form()->closeTag($form);?>     
+         <br><br><br>
+<!--    code of comment submit section ends -->
+         
+         
+<!--    code of comment retrieve section starts             -->
+         
+         
+     <?php foreach($mycomments as $comment):?>
+     <div id="fade" class="col-md-8 comment-data">    
+		 <blockquote class="pull-left">
+		  <p><?php echo $comment['comment'];?> <?php echo ($useridsession == $comment['userid'] ? "<a class='edit-comment'
+       href='javascript:void(0)'><span class='glyphicon glyphicon-edit'></span></a>":"");?><input value="<?php echo $comment['commentid']?>" type="hidden" class="comment-id">      
+		  <small><a class="href" href="#"><?php echo $comment['username'];?></a>  <cite title="Nombre Apellidos"><?php $date=$comment['createdat']; echo "".$this->dateFormat($date, IntlDateFormatter::MEDIUM,IntlDateFormatter::NONE, "en_US");?></cite></small>
+		</blockquote>
+       </div>  
+     <?php endforeach;?> 
+     
+      <?php endif;?>   
+  
+  </div>
+  
+  
+  <script>
+   $(function(){
+    $('.edit-comment').click(function(){
+     let comment = $(this).closest('.comment-data').find(".comment").text(); 
+     let commentid = $(this).closest('.comment-data').find('.comment-id').val();   
+     $('#comment-section').val(comment);
+     $('#commentid').val(commentid);
+     $('.mb-2').attr('value','Update');
+     $('.btn-cancel').show();
+     $('#blog').attr('action','/blog/editcomment');
+    });
+
+    $('.btn-cancel').click(function(){
+    	$('#comment-section').val("");
+    	$('#commentid').val("");
+    	$(this).hide();
+    	$('.mb-2').attr('value','Comment');
+    	$('#blog').attr('action','/blog/comment/'+$('#blogid').val());
+        });
+   });
+//    $(document).ready(function(){
+// 	    $("textarea").click(function(){
+// 	        $("#fade").fadeIn(2000);
+// 	    });
+// 	});
+
+   $(".padding-like").click( function(){
+	   var postid = $("#blogid-like").val();
+       let likeText = $('.likeDiv').text(); 
+		  $.ajax(
+			{
+			  url: '/blog/like',
+			  data : {'id':postid},
+		      type: 'POST',
+		      dataType : 'JSON',
+			  success: function(data)
+			  {
+			    if(likeText == "Like"){
+			    	$('.likeDiv').text("Unlike");
+			    }else{
+			    	$('.likeDiv').text("Like");
+			    }
+				$('.badge-light').text(data.c);           
+			   },
+			    });
+		});
+	$(".mb-2").click( function(){
+		var comment = $("#comment-section").val();
+		var postid = $("#blogid").val();
+		var username =$(".session").val();
+// 		alert("username=" +username);
+		$.ajax(
+			{
+			url : '/blog/comment',
+			data : {'comment':comment,'postid':postid},
+			type : 'POST',
+			dataType : 'JSON',
+			success: function(result)
+			{
+				let html ='<blockquote class="pull-right">';
+				html +='<p>'+comment+' <a class="edit-comment" href="javascript:void(0)"><span class="glyphicon glyphicon-edit"></span></a><input value="237" type="hidden" class="comment-id">';      
+				html +='<small><a class="href" href="#">'+username+'</a>  <cite title="Nombre Apellidos">November 7, 2018</cite></small>';
+				html +='</p></blockquote>';
+				$('#fade').prepend(html);
+				},		
+			});
+	});
+  </script>
+  <style>
+  
+  .jombotron{
+      padding-top: 6px;
+      padding-bottom: 6px;
+  }
+  .glyphicon {
+    font-size: 25px;
+}
+.padding-like
+{
+font-size:15px!important;
+}
+
+  </style>

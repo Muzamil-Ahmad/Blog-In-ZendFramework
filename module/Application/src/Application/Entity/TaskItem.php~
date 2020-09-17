@@ -1,0 +1,47 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TaskItem
+ *
+ * @ORM\Table(name="task_item")
+ * @ORM\Entity
+ */
+class TaskItem
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=100, nullable=false)
+     */
+    private $title;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="completed", type="boolean", nullable=false)
+     */
+    private $completed;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false)
+     */
+    private $created;
+
+
+}
+

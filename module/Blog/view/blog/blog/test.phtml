@@ -1,0 +1,22 @@
+
+
+
+
+
+
+
+
+<script>
+$("#sub").click( function(){
+	$.post($("#myForm").att('action','/blog/editcomment'),$("#myForm:input").serializeArray(),function(info){$("#result").html(info);});
+	clearInput();
+});
+$("#myForm").submit( function(){
+	return false;
+});
+function clearInput(){
+	$("#myForm:input").each( function(){
+		$(this).val('');
+	});
+}
+</script>

@@ -1,0 +1,46 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Privacy
+ *
+ * @ORM\Table(name="privacy", indexes={@ORM\Index(name="privacy_ibfk_1", columns={"userid"}), @ORM\Index(name="accessid", columns={"accessid"})})
+ * @ORM\Entity
+ */
+class Privacy
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \Application\Entity\Userregistration
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Userregistration")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="userid", referencedColumnName="userid")
+     * })
+     */
+    private $userid;
+
+    /**
+     * @var \Application\Entity\Userregistration
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Userregistration")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="accessid", referencedColumnName="userid")
+     * })
+     */
+    private $accessid;
+
+
+}
+

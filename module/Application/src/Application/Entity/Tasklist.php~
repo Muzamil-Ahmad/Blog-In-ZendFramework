@@ -1,0 +1,54 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Tasklist
+ *
+ * @ORM\Table(name="tasklist")
+ * @ORM\Entity
+ */
+class Tasklist
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="taskid", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $taskid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="taskname", type="string", length=600, nullable=false)
+     */
+    private $taskname;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="taskstatus", type="boolean", nullable=false)
+     */
+    private $taskstatus;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="duedate", type="date", nullable=false)
+     */
+    private $duedate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="completeddate", type="date", nullable=true)
+     */
+    private $completeddate;
+
+
+}
+

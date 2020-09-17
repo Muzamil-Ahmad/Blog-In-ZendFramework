@@ -1,0 +1,53 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Likes
+ *
+ * @ORM\Table(name="likes", indexes={@ORM\Index(name="id", columns={"id"}), @ORM\Index(name="blogid", columns={"blogid"}), @ORM\Index(name="userid", columns={"userid"})})
+ * @ORM\Entity
+ */
+class Likes
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    private $updatedAt;
+
+    /**
+     * @var \Application\Entity\Blogtable
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Blogtable")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="blogid", referencedColumnName="blogid")
+     * })
+     */
+    private $blogid;
+
+    /**
+     * @var \Application\Entity\Userregistration
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Userregistration")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="userid", referencedColumnName="userid")
+     * })
+     */
+    private $userid;
+
+
+}
+

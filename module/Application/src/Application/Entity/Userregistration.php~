@@ -1,0 +1,82 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Userregistration
+ *
+ * @ORM\Table(name="userregistration", indexes={@ORM\Index(name="userid", columns={"userid"})})
+ * @ORM\Entity
+ */
+class Userregistration
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="userid", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $userid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=100, nullable=false)
+     */
+    private $username;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=500, nullable=false)
+     */
+    private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=100, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phoneno", type="string", length=100, nullable=true)
+     */
+    private $phoneno;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gender", type="string", length=50, nullable=true)
+     */
+    private $gender;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=200, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="profession", type="string", length=200, nullable=true)
+     */
+    private $profession;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="profile", type="string", length=600, nullable=true)
+     */
+    private $profile;
+
+
+}
+

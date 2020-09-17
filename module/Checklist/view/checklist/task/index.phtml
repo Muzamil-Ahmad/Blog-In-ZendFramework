@@ -1,0 +1,41 @@
+<!-- <strong>Module:</strong>        Checklist &raquo; -->
+<!-- <strong>Controller:</strong>    Task &raquo; -->
+<strong>Action:</strong>        index
+<?php 
+ $title = "My Task list";
+//  $this->headTitle($title);
+?>
+<h1><?php echo $title; ?></h1>
+<a href="<?php echo $this->url('checklist',array('action'=>'add')); ?>">Add New Item</a>
+<table class="table">
+ <tr>
+ <th>Task</th>
+ <th>Created</th>
+ <th>Completed?</th>
+ <th>Operation(s)</th>
+ </tr>
+ <?php foreach($tasks as $task): ?>
+ <tr>
+
+
+ <td>
+
+ <?php echo $task->getTitle(); ?>
+ 
+ </td>
+ <td><?php echo $task->getCreated()->format('d-m-y : h-m-s'); ?></td>
+ <td><?php $value= $task->getCompleted();
+     if($value==1){
+     	echo "Yes";
+     }else 
+     	echo "No";
+ 
+ ?></td>
+ <td>
+   <a href="<?php echo $this->url('checklist',array('action'=>'edit','id'=>$task->getId()));?>">Edit</a>
+   <a href="<?php echo $this->url('checklist',array('action'=>'delete','id'=>$task->getId())); ?>">Delete</a>
+   
+ </td>
+ </tr>
+ <?php endforeach; ?>
+ </table>

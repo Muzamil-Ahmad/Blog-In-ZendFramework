@@ -1,0 +1,454 @@
+<div class="container emp-profile">
+   <form method="post">
+      <div class="row">
+        
+   <form id="files" method="post" enctype="multipart/form-data">
+   <div class="col-md-4">
+   <div class="profile-img">
+   <img src="<?php echo  $this->basePath("img/".$result->getProfile()); ?>" 
+      alt="..." class="img-thumbnail">
+   <div class="file btn btn-lg btn-primary">
+   Change Photo
+   <input type="file" name="image" id="file" onchange="changePhoto(this)"/>
+   </div>
+   </div>
+   </div>
+   </form>
+   
+   <div class="col-md-6">
+   <div class="profile-head">
+   <h5>
+   <?php echo $result->getUsername(); ?>
+   </h5>
+   <h6>
+   <?php echo $result->getProfession(); ?>
+   </h6>
+   <p class="proile-rating">Welcome : <span></span></p>
+   <ul class="nav nav-tabs" id="myTab" role="tablist">
+   <li class="nav-item">
+   <a class="nav-link active" id="home-tab" data-toggle="tab" 
+      href="#home" role="tab" aria-controls="home" aria-selected="true">
+   About</a>
+   </li>
+   <li class="nav-item">
+   <a class="nav-link" id="follow-tab" data-toggle="tab" href="#follow" 
+      role="tab" aria-controls="profile" aria-selected="false">
+   Followers
+   <span class="badge badge-follower">
+   <?php if(isset($followerCounter)){
+      echo $followerCounter;} ?>
+   </span></a>
+   </li> 
+   <li class="nav-item">
+   <a class="nav-link" id="follow-tab" data-toggle="tab" href="#following" role="tab" aria-controls="profile" aria-selected="false">Following<span class="badge badge-following"><?php echo $followingCounter; ?></span></a>
+   </li> 
+   </ul>
+   </div>
+   </div>
+   <div class="col-md-2">
+   <?php if($_SESSION['userid']==$result->getUserid()) : ?>
+   <a class="nav-link active profile-edit-btn" id="pills-home-tab"
+      href="<?php echo $this->url('blog',array('action'=>'editprofile','id'=>$result->getUserid())) ?>" role="tab" aria-controls="pills-home" aria-selected="true">Edit-Profile</a>
+   <?php endif; ?> 
+   <?php if($_SESSION['userid']!=$result->getUserid()) : ?>
+   <?php 
+      if ($followstatus)
+      {
+      	$followButton="Following";
+      }
+      else
+      {
+      	$followButton="Follow";
+      }
+      ?>
+   <button type="button" class="btn btn-info" value="<?php echo $result->getUserid();?>" id="followid"><span class="follow-div"><?php echo $followButton ?></span></button>
+   <?php endif; ?> 
+   </div>
+   </div>
+   <div class="row">
+      <div class="col-md-4">
+      
+         <div class="profile-work">
+          <?php if($_SESSION['userid']==$result->getUserid()) : ?>
+            <h4>Privacy</h4>
+            
+            <div class="col-md-2">
+            <h5>Following</h5>
+            <label class="switch">
+           <input <?php echo ($all== true ? "checked" :  "")?> type="checkbox" data-toggle="tooltip" title="Privacy" onchange="changePrivacyToAllFlg(this)"  class="userid checkbox" value="" >
+           <span class="slider round"></span>
+             </label><br>
+             <h5>Followers</h5>
+             <label class="switch">
+           <input <?php echo ($allFlr== true ? "checked" :  "")?> type="checkbox" data-toggle="tooltip" title="Privacy" onchange="changePrivacyToAllFlrs(this)"  class="checkboxflw" value="" >
+           <span class="slider round"></span>
+             </label>
+             </div>
+            <?php endif;?>
+         </div>
+      </div>
+      <div class="col-md-8">
+         <div class="tab-content profile-tab" id="myTabContent">
+            <div class="tab-pane fade active" id="home" role="tabpanel" aria-labelledby="home-tab">
+               <div class="row">
+                  <div class="col-md-6">
+                     <label>Name</label>
+                  </div>
+                  <div class="col-md-6">
+                     <p><?php echo $result->getUsername();?></p>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <label>Email</label>
+                  </div>
+                  <div class="col-md-6">
+                     <p><?php echo $result->getEmail();?></p>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <label>Phone</label>
+                  </div>
+                  <div class="col-md-6">
+                     <p><?php echo $result->getPhoneno();?></p>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <label>Profession</label>
+                  </div>
+                  <div class="col-md-6">
+                     <p><?php echo $result->getProfession();?></p>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <label>Address</label>
+                  </div>
+                  <div class="col-md-6">
+                     <p><?php echo $result->getAddress();?></p>
+                  </div>
+               </div>
+            </div>
+            <div class="tab-pane fade" id="follow" role="tabpanel" aria-labelledby="follow-tab">
+               <div class="row">
+                  <?php if (isset($followers)):?>
+                  <div class="col-md-10">
+                     <ul class="list-group ScrollStyle" width:100%>
+                        <?php foreach ($followers as $follow):?>
+                        <li class="list-group-item">
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <?php  $profile=$follow['userid']['profile'];?>          
+                                 <span>
+                                 <a href="<?php echo $this->url('blog',array('action'=>'userprofile','id'=>$follow['userid']['userid'])) ?>"
+                                    data-toggle="tooltip" data-placement="top" title="<?php echo $follow['userid']['username'];?>">
+                                 <img src="<?php echo $this->basepath("img/".$profile); ?>" class="img-circle" alt="profile" width="40" height="40"> 
+                                 <span><?php echo $follow['userid']['username'];?></span></a> 
+                                 </span>
+                              </div>
+                              <?php $userid=$result->getUserid();?>
+                              <?php if($_SESSION['userid']==$userid):?>
+                              <div class="col-md-6">
+                                 <label class="switch">
+                                 
+                                 <input <?php echo ($follow['checked']== 1 ? "checked" :  "")?> type="checkbox" data-toggle="tooltip" title="Privacy" onchange="changePrivacy(this)"  class="userid" value="<?php echo $follow['userid']['userid'];?>" >
+                                 <span class="slider round"></span>
+                                 </label>
+                              </div>
+                              <?php endif;?>
+                           </div>
+                        </li>
+                        <?php endforeach;?>
+                     </ul>
+                  </div>
+                  <?php endif;?>
+               </div>
+            </div>
+            <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
+               <div class="row">
+                  <div class="col-md-10 ScrollStyle">
+                     <?php if (isset($following)):?>
+                     <ul class="list-group" width:100%>
+                        <?php foreach ($following as $fol):?>
+                        <li class="list-group-item">
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <?php  $profile=$fol['followsid']['profile'];?>
+                                 <span>
+                                 <a href="<?php echo $this->url('blog',array('action'=>'userprofile','id'=>$fol['followsid']['userid'])) ?>"
+                                    data-toggle="tooltip" data-placement="top" title="<?php echo $fol['followsid']['username'];?>">
+                                 <img src="<?php echo $this->basepath("img/".$profile); ?>" class="img-circle" alt="profile" width="40" height="40"> 
+                                 <span><?php echo $fol['followsid']['username'];?></span></a> 
+                                 </span>
+                              </div>
+                              <?php $userid=$result->getUserid();?>
+                              <?php if($_SESSION['userid']==$userid):?>
+                              <div class="col-md-6">
+                                 <label class="switch">
+                                 <input <?php echo ($fol['checked']== 1 ? "checked" :  "")?> type="checkbox" data-toggle="tooltip" title="Privacy" onchange="changePrivacy(this)"  class="userid checkbox" value="<?php echo $fol['followsid']['userid'];?>" >
+                                 <span class="slider round"></span>
+                                 </label>
+                              </div>
+                              <?php endif;?>
+                           </div>
+                        </li>
+                        <?php endforeach;?>
+                     </ul>
+                  </div>
+                  <?php endif;?>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<style>
+   body{
+   background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+   }
+   .emp-profile{
+   padding: 3%;
+   margin-top: 3%;
+   margin-bottom: 3%;
+   border-radius: 0.5rem;
+   background: #fff;
+   }
+   .profile-img{
+   text-align: center;
+   }
+   .profile-img img{
+   width: 70%;
+   height: 100%;
+   }
+   .profile-img .file {
+   position: relative;
+   overflow: hidden;
+   margin-top: -20%;
+   width: 68%;
+   border: none;
+   border-radius: 0;
+   font-size: 15px;
+   background: #212529b8;
+   }
+   .profile-img .file input {
+   position: absolute;
+   opacity: 0;
+   right: 0;
+   top: 0;
+   }
+   .profile-head h5{
+   color: #333;
+   }
+   .profile-head h6{
+   color: #0062cc;
+   }
+   .profile-edit-btn{
+   border: none;
+   border-radius: 1.5rem;
+   width: 70%;
+   padding: 2%;
+   font-weight: 600;
+   color: #6c757d;
+   cursor: pointer;
+   }
+   .proile-rating{
+   font-size: 12px;
+   color: #818182;
+   margin-top: 5%;
+   }
+   .proile-rating span{
+   color: #495057;
+   font-size: 15px;
+   font-weight: 600;
+   }
+   .profile-head .nav-tabs{
+   margin-bottom:10%;
+   }
+   .profile-head .nav-tabs .nav-link{
+   font-weight:600;
+   border: none;
+   }
+   .profile-head .nav-tabs .nav-link.active{
+   border: none;
+   border-bottom:2px solid #0062cc;
+   }
+   .profile-work{
+   padding: 14%;
+   margin-top: -15%;
+   }
+   .profile-work p{
+   font-size: 12px;
+   color: #818182;
+   font-weight: 600;
+   margin-top: 10%;
+   }
+   .profile-work a{
+   text-decoration: none;
+   color: #495057;
+   font-weight: 600;
+   font-size: 14px;
+   }
+   .profile-work ul{
+   list-style: none;
+   }
+   .profile-tab label{
+   font-weight: 600;
+   }
+   .profile-tab p{
+   font-weight: 600;
+   color: #0062cc;
+   }
+   /* on of button style */
+   .switch {
+   position: relative;
+   display: inline-block;
+   width: 60px;
+   height: 34px;
+   }
+   .switch input { 
+   opacity: 0;
+   width: 0;
+   height: 0;
+   }
+   .slider {
+   position: absolute;
+   cursor: pointer;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: #ccc;
+   -webkit-transition: .4s;
+   transition: .4s;
+   }
+   .slider:before {
+   position: absolute;
+   content: "";
+   height: 26px;
+   width: 26px;
+   left: 4px;
+   bottom: 4px;
+   background-color: white;
+   -webkit-transition: .4s;
+   transition: .4s;
+   }
+   input:checked + .slider {
+   background-color: #2196F3;
+   }
+   input:focus + .slider {
+   box-shadow: 0 0 1px #2196F3;
+   }
+   input:checked + .slider:before {
+   -webkit-transform: translateX(26px);
+   -ms-transform: translateX(26px);
+   transform: translateX(26px);
+   }
+   /* Rounded sliders */
+   .slider.round {
+   border-radius: 34px;
+   }
+   .slider.round:before {
+   border-radius: 50%;
+   }
+   .ScrollStyle
+   {
+   max-height: 220px;
+   overflow-y: scroll;
+   }
+</style>
+<script>
+   $("#followid").click( function(){
+   var userid = $("#followid").val();
+   let followtext = $('.follow-div').text();
+   $.ajax(
+   {
+   url : '/blog/follow',
+   data : {'id':userid},
+   type : 'post',
+   dataType:'text',
+   
+   success: function(followerCounter){
+   //         			alert(followerCounter);
+   if(followtext == "Follow"){
+      	$('.follow-div').text("Following");
+      }
+      else{
+      	$('.follow-div').text("Follow");
+      }
+   $('.badge-follower').text(followerCounter);
+           },			
+   });
+   });
+   var changePhoto = (obj)=>{
+   	var file_data = $('#file').prop('files')[0];   
+       var form_data = new FormData();                  
+       form_data.append('file', file_data);                             
+       $.ajax({
+           url: '/blog/changePhoto', // point to server-side PHP script 
+           dataType: 'text',  // what to expect back from the PHP script, if anything
+           cache: false,
+           contentType: false,
+           processData: false,
+           data: form_data,                         
+           type: 'post',
+           success: function(fileName){
+               
+           	$('.img-thumbnail').attr("src","/img/"+fileName);
+           }
+        });
+       
+   	}
+   $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+   });
+   
+   var changePrivacy = (obj)=>{
+	   
+       var userid=$(obj).attr("value");
+   	 $.ajax(
+   			{
+   				  url: '/blog/changePrivacy',
+   				  data : {'id':userid},
+   			      type: 'POST',
+   			      dataType : 'JSON',
+   				  success: function(data)
+   				  {
+   				   
+   				   },
+   		 });
+   	}
+
+   
+	var changePrivacyToAllFlg = (obj)=>{
+		$('.checkbox').prop("checked",$(obj).prop("checked"));
+// 	       var userid=$(obj).attr("value");
+	     	 $.ajax(
+	     			{
+	     				  url: '/blog/changePrivacyToAllFlg',
+	     			      type: 'POST',
+	     			      dataType : 'JSON',
+	     				  success: function(data)
+	     				  {
+		     				  
+	     				   },
+	     		 });
+	     	}	
+
+	var changePrivacyToAllFlrs = (obj)=>{
+// 		$('.checkbox').prop("checked",$(obj).prop("checked"));
+// 	       var userid=$(obj).attr("value");
+	     	 $.ajax(
+	     			{
+	     				  url: '/blog/changePrivacyToAllFlrs',
+	     			      type: 'POST',
+	     			      dataType : 'JSON',
+	     				  success: function(data)
+	     				  {
+		     				  
+	     				   },
+	     		 });
+	     	}	
+   
+</script>

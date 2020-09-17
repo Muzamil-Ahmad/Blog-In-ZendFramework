@@ -1,0 +1,82 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * User
+ *
+ * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="regNo", columns={"regNumber"})})
+ * @ORM\Entity
+ */
+class User
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=50, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="regNumber", type="string", length=50, nullable=true)
+     */
+    private $regnumber;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dob", type="string", length=50, nullable=false)
+     */
+    private $dob;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phoneNumber", type="string", length=100, nullable=false)
+     */
+    private $phonenumber;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=100, nullable=false)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=50, nullable=false)
+     */
+    private $address;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="regDate", type="string", length=100, nullable=false)
+     */
+    private $regdate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="photo", type="string", length=100, nullable=false)
+     */
+    private $photo;
+
+
+}
+

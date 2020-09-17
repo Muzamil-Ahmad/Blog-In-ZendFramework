@@ -1,0 +1,40 @@
+<div class="container">
+  <!-- Content here -->
+  <?php
+$title = "Registration";
+?>
+<h1 style="text-align:center;"><?php echo $this->escapeHtml($title); ?></h1>
+  <hr>
+  <?php
+ $form = $this->form;
+ $form->setAttribute('action',$this->url('registration', array('action' => 'register')));
+ $form->get('submit')->setAttribute('value', 'Register');
+ $form->prepare();
+//  echo $this->formHidden($form->get('id'));
+ ?>
+ 
+<div class="container">
+<?php echo $this->form()->openTag($form);?>
+  <div class="row">
+    <div class="col-sm">
+      <?php echo $this->formRow($form->get('username')); ?> 
+    </div>
+    <div class="col-sm">
+       <?php echo $this->formRow($form->get('emailid')); ?> 
+    </div>
+    <div class="col-sm">
+      <?php echo $this->formRow($form->get('password')); ?> 
+    </div>
+    <div class="col-sm">
+      <?php echo $this->formRow($form->get('confirmpassword')); ?> <br>
+    </div>
+    <div class="col-sm">
+     
+     <?php echo $this->formInput($form->get('submit')); ?>
+    </div>
+    
+  </div>
+</div>
+  
+ <?php echo $this->form()->closeTag($form);?> 
+</div>
